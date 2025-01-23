@@ -1,6 +1,3 @@
-# obs_timestamp_app_global_hotkey.py
-# -*- coding: utf-8 -*-
-
 import sys
 import os
 import json
@@ -49,10 +46,9 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 def load_pixmap(filename):
     path = os.path.join(BASE_DIR, filename)
     return QPixmap(path)
-
-###############################################################################
+    
 # ConfigManager
-###############################################################################
+
 class ConfigManager:
     CONFIG_FILE = "config.json"
 
@@ -113,9 +109,9 @@ class ConfigManager:
         except Exception as e:
             print(f"Failed to save config.json to fallback path: {e}")
 
-###############################################################################
+
 # Project
-###############################################################################
+
 class Project:
     def __init__(self, name, video_file_path=None, timestamps=None):
         self.name = name
@@ -180,9 +176,9 @@ class Project:
                 projects.append(f[:-5])
         return projects
 
-###############################################################################
+
 # OBSController
-###############################################################################
+
 class OBSController:
     def __init__(self, host, port, password, main_app):
         self.host = host
@@ -266,9 +262,9 @@ class OBSController:
     def clear_stop_path(self):
         self.last_known_stop_path = None
 
-###############################################################################
+
 # SetupDialog
-###############################################################################
+
 class SetupDialog(QDialog):
     def __init__(self, config_manager, parent=None):
         super().__init__(parent)
@@ -348,9 +344,9 @@ class SetupDialog(QDialog):
         except Exception as e:
             QMessageBox.critical(self, "エラー", f"OBS への接続に失敗しました。設定を見直してください。\n{e}")
 
-###############################################################################
+
 # MainMenuWindow
-###############################################################################
+
 class MainMenuWindow(QMainWindow):
     def __init__(self, main_app):
         super().__init__()
@@ -443,9 +439,9 @@ class MainMenuWindow(QMainWindow):
         self.config_manager.save_config()
         QMessageBox.information(self, "ホットキー", f"ホットキーを '{new_hotkey}' に変更しました。")
 
-###############################################################################
+
 # RecordingWindow
-###############################################################################
+
 class RecordingWindow(QMainWindow):
     def __init__(self, main_app, project: Project):
         super().__init__()
@@ -503,9 +499,9 @@ class RecordingWindow(QMainWindow):
         self.project.save_json(self.main_app.config_manager.data["projects_path"])
         super().closeEvent(event)
 
-###############################################################################
+
 # EditWindow
-###############################################################################
+
 class EditWindow(QMainWindow):
     def __init__(self, main_app, project: Project):
         super().__init__()
@@ -708,9 +704,8 @@ class EditWindow(QMainWindow):
         self.project.save_json(self.main_app.config_manager.data["projects_path"])
         super().closeEvent(event)
 
-###############################################################################
 # QInputDialogWithTitle
-###############################################################################
+
 class QInputDialogWithTitle:
     @staticmethod
     def getText(parent, title, label):
@@ -739,9 +734,8 @@ class QInputDialogWithTitle:
         dlg.exec_()
         return ret_data["text"], ret_data["accepted"]
 
-###############################################################################
 # MainApp
-###############################################################################
+
 class MainApp(QApplication):
     def __init__(self, argv):
         super().__init__(argv)
